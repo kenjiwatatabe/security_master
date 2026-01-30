@@ -2,13 +2,20 @@ export type TenantArchitecture = "Single Tenant (RBAC)" | "Multi-Tenant (Organiz
 
 export const TenantStrategy = {
     analyze: (requirements: string[]): TenantArchitecture => {
+        // 日本語キーワードにも対応
         const multiTenantKeywords = [
             "SaaS",
             "B2B",
             "multiple companies",
             "subscription",
             "team isolation",
-            "client separation"
+            "client separation",
+            "複数社",
+            "組織",
+            "テナント",
+            "サブスクリプション",
+            "チーム分離",
+            "顧客分離"
         ];
 
         const isMultiTenant = requirements.some(req =>
@@ -20,13 +27,13 @@ export const TenantStrategy = {
 
     features: {
         singleTenant: {
-            advantages: ["Simpler Schema", "Easier Queries", "Direct User-to-Data mapping"],
-            bestFor: ["Internal Tools", "Personal Apps", "Single Enterprise Deployments"]
+            advantages: ["スキーマがシンプル", "クエリが容易", "ユーザー対データのマッピングが直接的"],
+            bestFor: ["社内ツール", "個人アプリ", "単一企業への導入"]
         },
         multiTenant: {
-            advantages: ["Data Isolation", " scalable to millions of orgs", "Unified Login"],
-            bestFor: ["SaaS Products", "Marketplaces", "Collaboration Tools"],
-            criticalRule: "Every table MUST have an `organization_id` column."
+            advantages: ["データの完全分離", "数百万の組織までスケール可能", "ログインの統一"],
+            bestFor: ["SaaS製品", "マーケットプレイス", "コラボレーションツール"],
+            criticalRule: "すべてのテーブルに必ず `organization_id` カラムを持たせること。"
         }
     }
 };
